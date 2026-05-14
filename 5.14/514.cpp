@@ -36,14 +36,27 @@ public:
 void test01()
 {
 	//括号法
-	person p1;//默认构造函数调用
-	person p2(10);//有参构造函数
-	person p3(p2);//拷贝构造函数
+	//person p1;//默认构造函数调用
+	//person p2(10);//有参构造函数
+	//person p3(p2);//拷贝构造函数
 
-	cout << "p2的年龄为：" << p2.age << endl;
-	cout << "p3的年龄为：" << p3.age << endl;
+	//cout << "p2的年龄为：" << p2.age << endl;
+	//cout << "p3的年龄为：" << p3.age << endl;
+	//注意
+	//调用默认构造函数时，不要加（）
+	//编译器认为是函数的声明
+
+
 
 	//显示法
+	//person p1;
+	//person p2 = person(10);//有参构造
+	//person p3 = person(p2);//拷贝构造
+
+	//person(10);//匿名对象，  特点：当前行执行结束后，系统会立即回收掉匿名对象
+	cout << "aaa" << endl;
+
+
 
 	//隐式转换法
 }
