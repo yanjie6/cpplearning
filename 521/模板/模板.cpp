@@ -489,120 +489,294 @@ int main()
 
 
 
-//
+/*
+#include<string>
+//类模板的对象做函数参数
+template<class T1, class T2>
+class person {
+public:
+	person(T1 name, T2 age)
+	{
+		this->m_name = name;
+		this->m_age = age;
+	}
 
+	void showperson() {
+		cout << "姓名：" << this->m_name << " 年龄：" << this->m_age << endl;
+	}
 
+	T1 m_name;
+	T2 m_age;
+};
 
-
+//1.指定传入类型
+void printperson1(person<string, int>& p)
+{
+	p.showperson();
+}
 
 void test01()
 {
+	person<string, int>p("孙悟空", 100);
+	printperson1(p);
 
 }
+
+//2.参数模板化
+template<class T1, class T2>
+void printperson2(person<T1, T2>&p)
+{
+	p.showperson();
+	cout << "T1的类型为: " << typeid(T1).name() << endl;/////////
+	cout << "T2的类型为: " << typeid(T2).name() << endl;
+}
+
+void test02() {
+	person<string, int>p("猪八戒", 100);
+	printperson2(p);
+}
+//3.整个类模板化
+template<class T>
+void printperson3(T &p)
+{
+	p.showperson();
+	cout << "T的数据类型为： " << typeid(T).name() << endl;
+}
+
+void test03()
+{
+	person<string, int>p("唐僧", 30);
+	printperson3(p);
+}
+
+
+int main() {
+	test01();
+	test02();
+	test03();
+	return 0;
+}
+*/
+
+
+
+/*
+//类模板与继承
+
+template<class T>
+class Base
+{
+	T m;
+};
+
+//class son :public Base//错误  必须要知道父类中的T类型，才能继承给子类
+class son:public Base<int>
+{
+
+};
+
+void test01() {
+	son s1;
+}
+
+//如果想灵活指定父类T类型，子类也需要变类模板
+template<class T1,class T2>
+class son2 :public Base<T2>
+{
+public:
+	son2() {
+		cout << "T1的类型为：" << typeid(T1).name() << endl;
+		cout << "T2的类型为：" << typeid(T2).name() << endl;
+	}
+	T1 obj;
+};
+
+void test02() {
+	son2<int,char>s2;
+}
+int main()
+{
+	//test01();
+	test02();
+	return 0;
+}
+*/
+
+
+
+/*
+#include<string>
+//类模板成员函数类外实现
+template<class T1,class T2>
+class person {
+public:
+	person(T1 name, T2 age);
+		//{
+			//this->m_age = age;
+			//this->m_name = name;
+		//}
+
+		void showperson();
+	//{
+		//cout << "姓名：" << this->m_name << "年龄" << this->m_age << endl;
+	//}
+
+	T1 m_name;
+	T2 m_age;
+};
+
+//构造函数的类外实现
+template<class T1,class T2>
+person<T1,T2>::person(T1 name, T2 age)
+{
+	this->m_age = age;
+	this->m_name = name;
+}
+
+//成员函数的类外实现
+template<class T1,class T2>
+void person<T1,T2>::showperson()
+{
+	cout << "姓名：" << this->m_name << " 年龄" << this->m_age << endl;
+}
+
+void test01() {
+	person<string, int>p("tom", 20);
+	p.showperson();
+}
+int main()
+{
+	test01();
+	return 0;
+}
+*/
+
+
+
+/*
+//类模板分文件编写问题及解决
+//#include<string>
+//template<class T1, class T2>
+//class person {
+//public:
+//	person(T1 name, T2 age);
+//
+//	void showperson();
+//	
+//	T1 m_name;
+//	T2 m_age;
+//};
+
+//template<class T1, class T2>
+//person<T1, T2>::person(T1 name, T2 age)
+//{
+//	this->m_age = age;
+//	this->m_name = name;
+//}
+//
+//template<class T1, class T2>
+//void person<T1, T2>::showperson()
+//{
+//	cout << "姓名：" << this->m_name << " 年龄" << this->m_age << endl;
+//}
+
+
+//第一种解决方式，直接包含源文件
+//#include"person.cpp"//类函数只有在调用时才创建，所以用.h会出现问题
+
+//第二种    将.h和 .cpp中的内容写到一起，将后缀改为.hpp文件
+#include"person.hpp"
+
+void test01() {
+	person<string, int>p("tom", 20);
+	p.showperson();
+}
+
 int main() {
 	test01();
 	return 0;
 }
 
+*/
 
 
 
+/*
+//类模板和友元				//听不懂
 
+#include<string>
 
+//通过全局函数 打印person信息
 
+//提前让编译器知道person类的存在
+template<class T1, class T2>
+class person;
 
+//类外实现
+////因为是全局函数，所以不用加作用域
 
 
+template<class T1, class T2>
+void printperson2(person<T1, T2>p)
+{
+	cout << "姓名：  " << p.m_name << "年龄： " << p.m_age << endl;
+}
 
+template<class T1, class T2>
+class person
+{
+	//全局函数 类内实现
+	friend void printperson(person<T1, T2>p)
+	{
+		cout << "姓名：  " << p.m_name << "年龄： " << p.m_age << endl;
+	}
 
+	//全局函数类外实现
+	//加 空模板参数列表
+	//如果全局函数 是类外实现，需要让编译器提前知道这个函数的存在
+	friend void printperson2<>(person<T1, T2>p);//因为是全局函数，所以不用加作用
 
+public:
+	person(T1 name, T2 age)
+	{
+		this->m_name = name;
+		this->m_age = age;
+	}
+private:
+	T1 m_name;
+	T2 m_age;
+};
 
 
 
+//1.全局函数在类内实现
+void test01()
+{
+	person<string, int>p("tom", 20);
+	printperson(p);
+}
 
+//2.全局函数在类外实现
+void test02()
+{
+	person<string, int>p1("jerry", 20);
+	printperson2(p1);
+}
 
+int main() {
+	test01();
+	test02();
+	return 0;
+}
 
+*/
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//案例   通用数组类
 
 
 
