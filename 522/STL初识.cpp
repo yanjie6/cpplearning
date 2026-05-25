@@ -54,7 +54,9 @@ int main()
 
 
 
+/*
 #include<vector>
+#include<string>
 //vector容器中存放自定义数据类型
 class person
 {
@@ -64,7 +66,7 @@ public:
 		this->m_age = age;
 		this->m_name = name;
 	}
-	
+
 	string m_name;
 	int m_age;
 };
@@ -73,8 +75,101 @@ public:
 void test01() {
 	vector<person> v;
 
-	person
+	person p1("zan", 18);
+	person p2("han", 28);
+	person p3("zsan", 38);
+	person p4("zngsan", 48);
+	person p5("zngsan", 58);
+
+	//向容器中添加数据
+	v.push_back(p1);
+	v.push_back(p2);
+	v.push_back(p3);
+	v.push_back(p4);
+	v.push_back(p5);
+
+	//遍历容器中的数据
+	for (vector<person>::iterator it = v.begin(); it != v.end(); it++)
+	{
+		cout << "姓名:  " << (*it).m_name << "年龄： " << it->m_age << endl;
+	}
 }
 
+//存放自定义数据类型 指针
+void test02()
+{
+	vector<person*> v;
+
+	person p1("zan", 18);
+	person p2("han", 28);
+	person p3("zsan", 38);
+	person p4("zngsan", 48);
+	person p5("zngsan", 58);
+
+	//向容器中添加数据
+	v.push_back(&p1);
+	v.push_back(&p2);
+	v.push_back(&p3);
+	v.push_back(&p4);
+	v.push_back(&p5);
+
+	//遍历容器
+	for (vector<person*>::iterator it = v.begin(); it != v.end(); it++)
+	{
+		cout << "姓名:  " << (**it).m_name << "年龄： " << (*it)->m_age << endl;
+	}
+}
+
+
+int main() {
+	test01();
+	test02();
+	system("pause");
+	return 0;
+}
+*/
+
+
+
+/*
+//vector容器嵌套容器
+#include<vector>
+#include<string>
+
+void test01()
+{
+	vector<vector<int>>v;
+	//创建小容器
+	vector<int>v1;
+	vector<int>v2;
+
+	//向小容器中添加数据
+	for (int i = 0; i < 2; i++)
+	{
+		v1.push_back(i + 1);
+		v2.push_back(i + 2);
+	}
+
+	//将小容器插入到大容器中
+	v.push_back(v1);
+	v.push_back(v2);
+
+	//通过大容器，遍历所有数据
+	for (vector<vector<int>>::iterator it = v.begin(); it != v.end(); it++)
+	{
+		//(*it) ---- 容器 vector<int>
+		for (vector<int>::iterator vit = (*it).begin(); vit != (*it).end(); vit++)
+		{
+			cout << *vit << "  ";
+		}
+		cout<< endl;
+	}
+}
+
+int main() {
+	test01();
+	return 0;
+}
+*/
 
 
