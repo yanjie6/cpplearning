@@ -243,6 +243,8 @@ int main()
 
 
 
+
+/*
 //list反转和排序
 void test01() {
 	//反转
@@ -263,6 +265,12 @@ void test01() {
 
 }
 //排序
+bool mycompare(int v1, int v2)
+{
+	//降序
+	return v1 > v2;
+}
+
 void test02() {
 	list<int>l1;
 	l1.push_back(10);
@@ -278,14 +286,91 @@ void test02() {
 	//不支持随机访问迭代器的容器，内部会提供对应的算法
 
 	l1.sort();//从小到大  默认
-				//l1.sort(greater<int>());//从大到小
 	printlist(l1);
 
+	l1.sort(mycompare);
+	printlist(l1);
 
 }
 int main() {
 	test02();
 	return 0;
 }
+*/
 
 
+/*
+//排序案例
+//将person按照年龄排序，一样的按身高
+
+class person
+{
+public:
+	person(string name, int age, int height)
+	{
+		this->m_name = name;
+		this->m_height = height;
+		this->m_age = age;
+	}
+	string m_name;
+	int m_age;
+	int m_height;
+};
+
+//指定排序规则
+bool comparepeson(person p1, person p2)
+{
+	//年龄升序
+	if (p1.m_age == p2.m_age)
+	{
+		//身高降序
+		return p1.m_height > p2.m_height;
+	}
+	else
+	{
+		return p1.m_age < p2.m_age;
+	}
+}
+
+void test01()
+{
+	list<person>l;//创建容器
+
+	//准备数据
+	person p1("aaa", 20, 180);
+	person p2("bbb", 30, 170);
+	person p3("ccc", 20, 150);
+	person p4("ddd", 50, 160);
+	person p5("eee", 30, 150);
+	person p6("fff", 70, 160);
+
+	//插入数据
+	l.push_back(p1);
+	l.push_back(p2);
+	l.push_back(p3);
+	l.push_back(p4);
+	l.push_back(p5);
+	l.push_back(p6);
+
+	for (list<person>::iterator it = l.begin(); it != l.end(); it++)
+	{
+		cout << "姓名：" << it->m_name << " 年龄：" << it->m_age << " 身高：" << it->m_height << endl;
+	}
+
+	//排序
+	cout << "-------------------------" << endl;
+	cout << "排序后：" << endl;
+
+		l.sort(comparepeson);
+
+	for (list<person>::iterator it = l.begin(); it != l.end(); it++)
+	{
+		cout << "姓名：" << it->m_name << " 年龄：" << it->m_age << " 身高：" << it->m_height << endl;
+	}
+
+}
+int main() {
+	test01();
+	return 0;
+}
+*/
